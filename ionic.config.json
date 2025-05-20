@@ -1,0 +1,8 @@
+{
+  "name": "cghrmsmobile",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue-vite",
+  "id": "0ae71ee2"
+}
