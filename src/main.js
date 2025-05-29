@@ -34,9 +34,22 @@ import '@ionic/vue/css/palettes/dark.system.css';
 /* Theme variables */
 import './theme/variables.css';
 
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
+
+let options = {
+    position: 'bottom-right',
+    timeout: 3000,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+  }
+
 const app = createApp(App)
   .use(IonicVue)
   .use(router);
+
+app.use(Toast, options);
 
 router.isReady().then(() => {
   app.mount('#app');
