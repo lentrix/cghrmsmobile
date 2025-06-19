@@ -1,5 +1,6 @@
 <script setup>
-import { IonContent, IonButton, IonGrid, IonRow, IonCol } from '@ionic/vue';
+import { IonContent, IonButton, IonGrid, IonRow, IonCol, IonIcon, IonFab, IonFabButton } from '@ionic/vue';
+import { refresh } from 'ionicons/icons';
 import axios from 'axios';
 import { onMounted, ref, inject } from 'vue';
 import { useToast } from 'vue-toastification';
@@ -14,8 +15,10 @@ const toast = useToast()
 const isOffline = ref(true)
 const recentLogs = ref([])
 
+const emits = defineEmits(['logTime'])
+
 const onUpload = () => {
-    retrieveLocalLogs()
+    // retrieveLocalLogs()
 
     records.value.forEach(record => {
         const data = {
@@ -48,17 +51,17 @@ const onDownload = () => {
     retrieveRecentLogs()
 }
 
-const retrieveLocalLogs = () => {
-    const logs = localStorage.getItem('timeLogs') ? JSON.parse(localStorage.getItem('timeLogs')) : []
-    records.value = logs.filter(log => log.user_id === user.value.id)
-}
+// const retrieveLocalLogs = () => {
+//     const logs = localStorage.getItem('timeLogs') ? JSON.parse(localStorage.getItem('timeLogs')) : []
+//     records.value = logs.filter(log => log.user_id === user.value.id)
+// }
 
-const removeLocalLog = (serial) => {
-    let logs = JSON.parse(localStorage.getItem('timeLogs')) || []
-    logs = logs.filter(log => log.serial !== serial)
-    localStorage.setItem('timeLogs', JSON.stringify(logs))
-    retrieveLocalLogs()
-}
+// const removeLocalLog = (serial) => {
+//     let logs = JSON.parse(localStorage.getItem('timeLogs')) || []
+//     logs = logs.filter(log => log.serial !== serial)
+//     localStorage.setItem('timeLogs', JSON.stringify(logs))
+//     retrieveLocalLogs()
+// }
 
 const retrieveRecentLogs = () => {
     axios.get(host + '/dtr/timelog', {
@@ -78,7 +81,7 @@ const retrieveRecentLogs = () => {
 }
 
 onMounted(() => {
-    retrieveLocalLogs()
+    // retrieveLocalLogs()
     retrieveRecentLogs()
 })
 
@@ -122,7 +125,7 @@ onMounted(() => {
             </ion-row>
         </ion-grid>
 
-        <h3>Pending Time Logs</h3>
+        <!-- <h3>Pending Time Logs</h3>
         <ion-grid>
             <ion-row style="border-bottom: 1px solid #ccc;">
                 <ion-col><strong>Log Time</strong></ion-col>
@@ -139,6 +142,7 @@ onMounted(() => {
                 <ion-col>{{ record.location }}</ion-col>
             </ion-row>
         </ion-grid>
+
         <ion-grid>
             <ion-row>
                 <ion-col>
@@ -148,7 +152,7 @@ onMounted(() => {
                     <ion-button expand="block" color="success" @click="onDownload()">Download</ion-button>
                 </ion-col>
             </ion-row>
-        </ion-grid>
+        </ion-grid> -->
 
         <h3>Recent Time Logs (Last 20)</h3>
         <div v-if="isOffline" style="color:red">Unable to fetch data. (You are offline)</div>
@@ -170,6 +174,12 @@ onMounted(() => {
         </ion-grid>
 
     </ion-content>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button color="primary" @click="onDownload">
+            <ion-icon :icon="refresh"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
 </template>
 
 <style scoped>

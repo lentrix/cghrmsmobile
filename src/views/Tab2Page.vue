@@ -6,11 +6,7 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">DTR</ion-title>
-        </ion-toolbar>
-      </ion-header>
+      
 
       <DTRIndex v-if="activePage=='index'" @logTime="logTime"></DTRIndex>
       <TimeLog v-if="activePage=='timelog'" :logType="logType" :logPeriod="logPeriod" @back="activePage='index'" @decoded="handleDecode"></TimeLog>

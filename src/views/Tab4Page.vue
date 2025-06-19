@@ -2,17 +2,17 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Evaluation</ion-title>
+        <ion-title>Admin</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
+      <!-- <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Evaluation</ion-title>
+          <ion-title size="large">Admin</ion-title>
         </ion-toolbar>
-      </ion-header>
+      </ion-header> -->
 
-      <ExploreContainer name="Evaluation page" />
+      <ExploreContainer name="Admin page" />
     </ion-content>
   </ion-page>
 </template>

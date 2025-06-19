@@ -61,10 +61,11 @@ const onDecode = (decodedString) => {
     if(isOnline.value) {
         postTimeLog(data)
     }else {
-        let logs = JSON.parse(localStorage.getItem('timeLogs')) || []
-        logs.push(data)
-        localStorage.setItem('timeLogs', JSON.stringify(logs))
-        toast.success('Successfully logged TIME ' + props.logType + ' ' + checkTime +  ' @ ' + qrObject.name + ' (Offline)')
+        // let logs = JSON.parse(localStorage.getItem('timeLogs')) || []
+        // logs.push(data)
+        // localStorage.setItem('timeLogs', JSON.stringify(logs))
+        // toast.success('Successfully logged TIME ' + props.logType + ' ' + checkTime +  ' @ ' + qrObject.name + ' (Offline)')
+        toast.error('Sorry! It seems you are offline.')
     }
 
     emit('back')
@@ -143,6 +144,7 @@ const postTimeLog = async (data) => {
         });
         toast.success('Successfully logged TIME ' + props.logType + ' ' + data.check_time + ' @ ' + data.location + ' (Online)')
     } catch (error) {
+        console.log(error.response?.data)
         toast.error('Error logging time: ' + error.response?.data?.error);
     }
 }

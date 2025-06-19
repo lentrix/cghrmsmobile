@@ -2,16 +2,14 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Home</ion-title>
+        <ion-title>
+          <ion-icon :icon="home"></ion-icon>
+          Home
+        </ion-title>
       </ion-toolbar>
     </ion-header>
+    
     <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Home</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
       <LoginForm v-if="!user"></LoginForm>
       <HomePage v-else></HomePage>
     </ion-content>
@@ -19,10 +17,11 @@
 </template>
 
 <script setup>
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon } from '@ionic/vue';
 import LoginForm from '@/components/LoginForm.vue';
 import HomePage from '@/components/HomePage.vue';
 import { onMounted, inject } from 'vue';
+import { home } from 'ionicons/icons';
 
 const user = inject('user')
 

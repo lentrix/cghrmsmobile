@@ -17,12 +17,12 @@
 
           <ion-tab-button tab="tab3" href="/tabs/tab3">
             <ion-icon aria-hidden="true" :icon="clipboard" />
-            <ion-label>Incidents</ion-label>
+            <ion-label>Pay Slip</ion-label>
           </ion-tab-button>
 
           <ion-tab-button tab="tab4" href="/tabs/tab4">
-            <ion-icon aria-hidden="true" :icon="checkbox" />
-            <ion-label>Evaluation</ion-label>
+            <ion-icon aria-hidden="true" :icon="people" />
+            <ion-label>Admin</ion-label>
           </ion-tab-button>
 
         </template>
@@ -36,7 +36,7 @@
 
 <script setup>
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
-import { home, clipboard, triangle, time, checkbox, information} from 'ionicons/icons';
+import { home, clipboard, people, time } from 'ionicons/icons';
 
 import { inject } from 'vue';
 
