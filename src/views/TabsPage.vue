@@ -22,7 +22,7 @@
 
           <ion-tab-button tab="tab4" href="/tabs/tab4">
             <ion-icon aria-hidden="true" :icon="people" />
-            <ion-label>Admin</ion-label>
+            <ion-label>Evaluation</ion-label>
           </ion-tab-button>
 
         </template>
