@@ -25,6 +25,11 @@
             <ion-label>Evaluation</ion-label>
           </ion-tab-button>
 
+          <ion-tab-button tab="tab5" href="/tabs/tab5">
+            <ion-icon aria-hidden="true" :icon="fileTray" />
+            <ion-label>Incident</ion-label>
+          </ion-tab-button>
+
         </template>
 
       </ion-tab-bar>
@@ -36,7 +41,7 @@
 
 <script setup>
 import { IonTabBar, IonTabButton, IonTabs, IonLabel, IonIcon, IonPage, IonRouterOutlet } from '@ionic/vue';
-import { home, clipboard, people, time } from 'ionicons/icons';
+import { home, clipboard, people, time, fileTray } from 'ionicons/icons';
 
 import { inject } from 'vue';
 
