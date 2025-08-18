@@ -93,7 +93,7 @@ import { useRoute } from 'vue-router';
 import { useToast } from 'vue-toastification';
 
 const toast = useToast()
-const host = inject('host')
+const host = localStorage.getItem('host') || 'http://localhost:8000/api'
 
 const route = useRoute();
 let payroll = ref(null);

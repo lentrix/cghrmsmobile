@@ -12,11 +12,12 @@ const credentials = ref({
   password: ''
 })
 
-const host = inject('host')
+let host = localStorage.getItem('host') || 'http://localhost:8000/api'
 const user = inject('user')
 
 const login = async () => {
     try {
+        host = localStorage.getItem('host') || 'http://localhost:8000/api'
         const response = await axios.post(`${host}/login`, {
             email: credentials.value.email,
             password: credentials.value.password
@@ -30,7 +31,8 @@ const login = async () => {
         console.log('Login successful:', response.data)
     } catch (error) {
         // handle error, e.g., show error message
-        toast.error('Login failed. ' + error.response?.data?.message)
+        toast.error('Login failed. ' + host + " : " + error.message)
+        console.error(error.message);
     }
 }
 

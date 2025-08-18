@@ -6,7 +6,7 @@ import { useToast } from 'vue-toastification'
 
 const toast = useToast()
 
-const host = inject('host')
+const host = localStorage.getItem('host') || 'http://localhost:8000/api'
 const user = inject('user')
 
 const logout = async () => {

@@ -8,7 +8,7 @@ import { useToast } from 'vue-toastification';
 const records = ref()
 
 const user = inject('user')
-const host = inject('host')
+const host = localStorage.getItem('host') || 'http://localhost:8000/api'
 
 const toast = useToast()
 

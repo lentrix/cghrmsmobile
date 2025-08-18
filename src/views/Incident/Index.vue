@@ -49,7 +49,7 @@ import IncidentCard from '@/components/IncidentCard.vue';
 const toast = useToast();
 
 const user = inject('user');
-const host = inject('host');
+const host = localStorage.getItem('host') || 'http://localhost:8000/api';
 
 const incidents = ref([]);
 const myIncidents = ref([]);

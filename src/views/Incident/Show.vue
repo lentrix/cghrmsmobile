@@ -140,7 +140,7 @@ import axios from 'axios';
 const emit = defineEmits(['changePage','updateComments']);
 
 const user = inject('user');
-const host = inject('host');
+const host = localStorage.getItem('host') || 'http://localhost:8000/api';
 
 const modal = ref();
 

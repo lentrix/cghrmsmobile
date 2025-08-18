@@ -6,8 +6,7 @@ import axios from 'axios';
 import { inject, onMounted, ref } from 'vue';
 
 const user = inject('user');
-const host = inject('host');
-
+let host = localStorage.getItem('host') || 'http://localhost:8000/api';
 
 const evaluationsRequirements = ref([]);
 

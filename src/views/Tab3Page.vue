@@ -58,7 +58,7 @@ import { clipboard, cog } from 'ionicons/icons';
 import axios from 'axios';
 
 const user = inject('user')
-const host = inject('host')
+const host = localStorage.getItem('host') || 'http://localhost:8000/api'
 
 const selectedYear = ref(new Date().getFullYear())
 

@@ -70,7 +70,7 @@ import { useToast } from 'vue-toastification';
 
 const emits = defineEmits(['changePage'])
 
-const host = inject('host');
+const host = localStorage.getItem('host') || 'http://localhost:8000/api';
 const user = inject('user');
 
 const toast = useToast();

@@ -9,7 +9,7 @@ import { QrcodeStream } from 'vue3-qrcode-reader';
 const emit = defineEmits(['back']);
 const toast = useToast()
 const isOnline = ref(false);
-const host = inject('host');
+const host = localStorage.getItem('host') || 'http://localhost:8000/api';
 const user = inject('user');
 var interval = null;
 const coords = ref(null);

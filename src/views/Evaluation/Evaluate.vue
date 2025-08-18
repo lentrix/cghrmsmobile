@@ -18,7 +18,7 @@ const props = defineProps({
 const toast = useToast();
 
 const user = inject('user');
-const host = inject('host');
+const host = localStorage.getItem('host') || 'http://localhost:8000/api';
 
 const evalItems = ref([]);
 const comments = ref('');
