@@ -3,7 +3,7 @@
     <ion-card>
         <ion-card-header>
             <div style="display: flex; justify-content: space-between; align-items:center">
-                <ion-card-title>{{ incident.user.employee_info.full_name }}</ion-card-title>
+                <ion-card-title>{{ incident.user.employee_info?.full_name }}</ion-card-title>
                 <ion-button color="medium" @click="$emit('open')">
                     <ion-icon :icon="open" />
                 </ion-button>

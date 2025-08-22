@@ -15,25 +15,34 @@ const credentials = ref({
 let host = localStorage.getItem('host') || 'http://localhost:8000/api'
 const user = inject('user')
 
-const login = async () => {
-    try {
-        host = localStorage.getItem('host') || 'http://localhost:8000/api'
-        const response = await axios.post(`${host}/login`, {
-            email: credentials.value.email,
-            password: credentials.value.password
-        })
-        // handle successful login, e.g., save token or redirect
+const errMessage = ref('')
 
-        user.value = response.data.user // assuming the API returns user data
-        localStorage.setItem('access_token', response.data.access_token) // save token to local storage
-        localStorage.setItem('user', JSON.stringify(response.data.user)) // save user data to local storage
+const login = () => {
+    host = localStorage.getItem('host') || 'http://localhost:8000/api'
+    axios.post(`${host}/login`, {
+        email: credentials.value.email,
+        password: credentials.value.password
+    },{
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      
+    }).then(response => {
+      
+      user.value = response.data.user // assuming the API returns user data
+      localStorage.setItem('access_token', response.data.access_token) // save token to local storage
+      localStorage.setItem('user', JSON.stringify(response.data.user)) // save user data to local storage
 
-        console.log('Login successful:', response.data)
-    } catch (error) {
-        // handle error, e.g., show error message
+      console.log('Login successful:', response.data)
+
+    }).catch(error => {
         toast.error('Login failed. ' + host + " : " + error.message)
-        console.error(error.message);
-    }
+        console.error(error.message, credentials.value);
+        errMessage.value = error
+    });
+  
 }
 
 </script>
@@ -58,5 +67,6 @@ const login = async () => {
         </div>
       </ion-card-content>
     </ion-card>
+    <div v-if="errMessage" class="error-message">{{ errMessage }}</div>
   </ion-content>
 </template>

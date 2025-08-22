@@ -13,7 +13,7 @@
     <div class="ion-padding">
         <ion-item>
             <ion-select label="Select Employee" type="select" v-model="incidentReport.user_id" labelPlacement="floating" required>
-                <ion-select-option v-for="subordinate in subordinates" :key="subordinate.id" :value="subordinate.id">
+                <ion-select-option v-for="subordinate in subordinates" :key="subordinate.id" :value="subordinate.user_id">
                     {{ subordinate.last_name }}, {{ subordinate.first_name }}
                 </ion-select-option>
             </ion-select>
