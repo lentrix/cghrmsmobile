@@ -1,6 +1,7 @@
 <script setup>
-import { IonContent, IonCard, IonCol, IonCardHeader, IonCardTitle, IonCardContent, IonItem, IonLabel, IonInput, IonButton, IonRow, IonGrid } from '@ionic/vue';
-import { inject } from 'vue'
+import { IonIcon, IonCard, IonCol, IonCardHeader, IonCardTitle, IonCardContent, IonButton, IonRow, IonGrid } from '@ionic/vue';
+import { calendar, mic } from 'ionicons/icons';
+import { inject, onMounted, ref } from 'vue'
 import axios from 'axios'
 import { useToast } from 'vue-toastification'
 
@@ -9,10 +10,13 @@ const toast = useToast()
 const host = localStorage.getItem('host') || 'http://localhost:8000/api'
 const user = inject('user')
 
+const events = ref([])
+const announcements = ref([])
+
 const logout = async () => {
 
     try {
-        const response = await axios.post(`${host}/logout`, {}, {
+        await axios.post(`${host}/logout`, {}, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('access_token')}`
             }
@@ -28,6 +32,22 @@ const logout = async () => {
     localStorage.removeItem('user')
     user.value = null
 }
+
+onMounted(() => {
+    // get upcoming calendar events
+    axios.get(`${host}/home-data`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('access_token')}`
+        }
+    })
+    .then(response => {
+        events.value = response.data.events || []
+        announcements.value = response.data.announcements || []
+    })
+    .catch(error => {
+        toast.error('Failed to fetch user information. ' + error.response?.data?.message)
+    })
+})
 
 </script>
 
@@ -75,6 +95,76 @@ const logout = async () => {
             </ion-grid>
         </ion-card-content>
     </ion-card>
+
+    <div>
+
+        <h3 class="ion-padding">
+            Upcoming Events
+        </h3>
+
+        <div v-if="events.size==0">No upcoming events.</div>
+        <template v-else>
+
+            <ion-card v-for="event in events" :key="event.id" class="ion-margin-bottom" color="tertiary">
+                <ion-card-header>
+                    <ion-card-title>
+                        <ion-icon :icon="calendar" />
+                        {{ event.title }}
+                    </ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    <p>
+                        {{
+                            new Date(event.start).toLocaleString('en-US', {
+                                month: 'short',
+                                day: 'numeric',
+                                year: 'numeric',
+                                hour: 'numeric',
+                                minute: '2-digit',
+                                hour12: true
+                            })
+                        }}
+                        -
+                        {{
+                            new Date(event.end).toLocaleString('en-US', {
+                                month: 'short',
+                                day: 'numeric',
+                                year: 'numeric',
+                                hour: 'numeric',
+                                minute: '2-digit',
+                                hour12: true
+                            })
+                        }}
+                    </p>
+                </ion-card-content>
+            </ion-card>
+
+        </template>
+
+    </div>
+
+    <div>
+
+        <h3 class="ion-padding">Announcements</h3>
+
+        <div v-if="events.size==0">No announcements.</div>
+        <template v-else>
+
+            <ion-card v-for="announcement in announcements" :key="announcement.id" class="ion-margin-bottom" color="success">
+                <ion-card-header>
+                    <ion-card-title>
+                        <ion-icon :icon="mic"></ion-icon>
+                        {{ announcement.title }}
+                    </ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                    <p>{{ announcement.description }}</p>
+                </ion-card-content>
+            </ion-card>
+
+        </template>
+
+    </div>
 
     <ion-button expand="full" class="ion-padding" @click="logout">Logout</ion-button>
 </template>
