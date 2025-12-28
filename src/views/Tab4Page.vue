@@ -9,8 +9,8 @@
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
-      <Index v-if="activePage=='index'" @evaluate="onEvaluate" />
-      <Evaluate v-else-if="activePage=='evaluate'" :evaluation="evaluation" @back="onBack" />
+      <EvaluationIndex v-if="activePage=='index'" @evaluate="onEvaluate" />
+      <EvaluateAction v-else-if="activePage=='evaluate'" :evaluation="evaluation" @back="onBack" />
     </ion-content>
   </ion-page>
 </template>
@@ -18,8 +18,8 @@
 <script setup>
 import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon } from '@ionic/vue';
 import {people} from 'ionicons/icons';
-import Index from './Evaluation/Index.vue';
-import Evaluate from './Evaluation/Evaluate.vue';
+import EvaluationIndex from './Evaluation/EvaluationIndex.vue';
+import EvaluateAction from './Evaluation/EvaluateAction.vue';
 import { ref } from 'vue';
 
 const activePage = ref('index');
