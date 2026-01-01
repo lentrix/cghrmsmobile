@@ -217,11 +217,34 @@ onMounted(() => {
                 <IonGrid>
                     <IonRow>
                         <IonCol size="8" class="table-header">
-                            <strong>KRA Average</strong>
+                            <strong>Computed Weight Value ({{ kra.weight }} x {{ kra.kpris[0].computed_rating.toFixed(2)*100 }}%)</strong>
                         </IonCol>
                         <IonCol size="2" class="table-header"></IonCol>
                         <IonCol size="2" class="table-header">
-                            xxx
+                            {{ kra.computed_weight.toFixed(2) }}
+                        </IonCol>
+                    </IonRow>
+                </IonGrid>
+            </IonCard>
+
+            <IonCard>
+                <IonGrid>
+                    <IonRow style="font-size: 1.3em">
+                        <IonCol size="8" class="table-header">
+                            <strong>Overall Performance Rating</strong>
+                        </IonCol>
+                        <IonCol size="2" class="table-header"></IonCol>
+                        <IonCol size="2" class="table-header">
+                            {{ performanceAppraisal.perf_appr.overall_rating.toFixed(2)*100 }}%
+                        </IonCol>
+                    </IonRow>
+                    <IonRow style="font-size: 1.3em">
+                        <IonCol class="table-header">
+                            <strong>Interpretation</strong>
+                        </IonCol>
+                        <IonCol size="2" class="table-header"></IonCol>
+                        <IonCol class="table-header" :style="{ color: performanceAppraisal.perf_appr.interpretation_color }">
+                            {{ performanceAppraisal.perf_appr.interpretation }}
                         </IonCol>
                     </IonRow>
                 </IonGrid>
