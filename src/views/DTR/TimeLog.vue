@@ -37,7 +37,7 @@ const onDecode = (decodedString) => {
     
     const proximity = computeProximity(qrObject.lat, qrObject.lon, coords.value.lat, coords.value.lon)
 
-    if (proximity > 100) {
+    if (proximity > 1000) {
         toast.error('You are too far from the location: ' + proximity + " meters away.")
         emit('back')
         return
