@@ -18,7 +18,7 @@ const selectedScheduleId = ref(null);
 
 const fetchEvalRequirements = async () => {
 
-    axios.get(host + '/evaluation/requirements/', {
+    axios.get(`${host}/evaluation/requirements`, {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
@@ -31,8 +31,7 @@ const fetchEvalRequirements = async () => {
         });
 }
 const fetchPerformanceAppraisal = async () => {
-    console.log(selectedScheduleId.value);
-    axios.get(host + '/perf-appr/' + (selectedScheduleId.value ? selectedScheduleId.value : ''), {
+    axios.get(host + '/perf-appr' + (selectedScheduleId.value ? ('/' + selectedScheduleId.value) : ''), {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('access_token')}`
         }
@@ -78,7 +77,7 @@ onMounted(() => {
 
 <template>
     <IonFab slot="fixed" vertical="top" horizontal="end" :edge="true">
-      <IonFab-button @click="fetchEvalRequirements">
+      <IonFab-button @click="()=>{fetchEvalRequirements(); fetchPerformanceAppraisal();}">
         <IonIcon :icon="refresh"></IonIcon>
       </IonFab-button>
     </IonFab>
