@@ -2,6 +2,9 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
         <ion-title>
           <ion-icon aria-hidden="true" :icon="fileTray" />
           Incident Report
@@ -20,7 +23,7 @@
 
 
 <script setup>
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonButtons, IonMenuButton } from '@ionic/vue';
 import { fileTray } from 'ionicons/icons';
 import { inject, ref } from 'vue';
 import Index from '@/views/Incident/Index.vue';

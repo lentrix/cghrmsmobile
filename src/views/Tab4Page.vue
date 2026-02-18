@@ -2,6 +2,9 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
         <ion-title>
           <ion-icon aria-hidden="true" :icon="people" />
           Evaluation
@@ -16,7 +19,7 @@
 </template>
 
 <script setup>
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonButtons, IonMenuButton } from '@ionic/vue';
 import {people} from 'ionicons/icons';
 import EvaluationIndex from './Evaluation/EvaluationIndex.vue';
 import EvaluateAction from './Evaluation/EvaluateAction.vue';

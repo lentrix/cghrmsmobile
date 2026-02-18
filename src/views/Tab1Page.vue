@@ -2,6 +2,9 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
         <ion-title>
           <ion-icon :icon="home"></ion-icon>
           Home
@@ -36,7 +39,7 @@
 </template>
 
 <script setup>
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonButton, IonButtons, IonFab, IonFabButton } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonButton, IonButtons, IonFab, IonFabButton, IonMenuButton } from '@ionic/vue';
 import LoginForm from '@/components/LoginForm.vue';
 import HomePage from '@/components/HomePage.vue';
 import SettingsModal from '../components/SettingsModal.vue';
@@ -60,9 +63,6 @@ const close = () =>{
 }
 
 onMounted(() => {
-  
-  localStorage.getItem('user') ? user.value = JSON.parse(localStorage.getItem('user')) : user.value = null;
-
   let host = localStorage.getItem('host');
 
   axios.get(`${host}/test`)

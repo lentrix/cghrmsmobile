@@ -1,5 +1,5 @@
 <script setup>
-import { IonIcon, IonCard, IonCol, IonCardHeader, IonCardTitle, IonCardContent, IonButton, IonRow, IonGrid } from '@ionic/vue';
+import { IonIcon, IonCard, IonCol, IonCardHeader, IonCardTitle, IonCardContent, IonRow, IonGrid } from '@ionic/vue';
 import { calendar, mic } from 'ionicons/icons';
 import { inject, onMounted, ref } from 'vue'
 import axios from 'axios'
@@ -12,26 +12,6 @@ const user = inject('user')
 
 const events = ref([])
 const announcements = ref([])
-
-const logout = async () => {
-
-    try {
-        await axios.post(`${host}/logout`, {}, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('access_token')}`
-            }
-        })
-        
-        toast.success('Logout successful')
-
-    } catch (error) {
-        toast.error('Logout failed. ' + error.response?.data?.message)
-    }
-
-    localStorage.removeItem('access_token')
-    localStorage.removeItem('user')
-    user.value = null
-}
 
 onMounted(() => {
     // get upcoming calendar events
@@ -166,5 +146,4 @@ onMounted(() => {
 
     </div>
 
-    <ion-button expand="full" class="ion-padding" @click="logout">Logout</ion-button>
 </template>

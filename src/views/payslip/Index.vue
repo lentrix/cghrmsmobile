@@ -2,6 +2,9 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
+                <ion-buttons slot="start">
+                    <ion-menu-button></ion-menu-button>
+                </ion-buttons>
         <ion-title>Pay Slip View</ion-title>
       </ion-toolbar>
     </ion-header>
@@ -86,7 +89,7 @@
 </template>
 
 <script setup>
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonCol, IonGrid, IonRow } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonCard, IonCardHeader, IonCardContent, IonCardTitle, IonCol, IonGrid, IonRow, IonButtons, IonMenuButton } from '@ionic/vue';
 import axios from 'axios';
 import { ref, watch, inject, onMounted } from 'vue';
 import { useRoute } from 'vue-router';

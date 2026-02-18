@@ -35,6 +35,10 @@ const routes = [
         component: () => import('@/views/Tab5Page.vue')
       },
       {
+        path: 'leave-form',
+        component: () => import('@/views/LeaveFormPage.vue')
+      },
+      {
         path: 'payslip',
         component: () => import('@/views/payslip/Index.vue')
       }

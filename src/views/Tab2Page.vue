@@ -2,6 +2,9 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
         <ion-title>Daily Time Record</ion-title>
       </ion-toolbar>
     </ion-header>
@@ -16,7 +19,7 @@
 </template>
 
 <script setup>
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent  } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonMenuButton } from '@ionic/vue';
 import DTRIndex from '@/views/DTR/DTRIndex.vue';
 import TimeLog from '@/views/DTR/TimeLog.vue';
 import { ref, inject } from 'vue';

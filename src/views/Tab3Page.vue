@@ -2,6 +2,9 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
         <ion-title slot="start">
           <ion-icon aria-hidden="true" :icon="clipboard" />
           Pay Slip
@@ -52,7 +55,7 @@
 </template>
 
 <script setup>
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonLabel, IonSelectOption, IonSelect, IonItem, IonCol, IonRow, IonGrid, IonButton } from '@ionic/vue';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonLabel, IonSelectOption, IonSelect, IonItem, IonCol, IonRow, IonGrid, IonButton, IonButtons, IonMenuButton } from '@ionic/vue';
 import { onMounted, ref, inject } from 'vue';
 import { clipboard, cog } from 'ionicons/icons';
 import axios from 'axios';
