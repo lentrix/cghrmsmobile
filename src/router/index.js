@@ -39,6 +39,14 @@ const routes = [
         component: () => import('@/views/LeaveFormPage.vue')
       },
       {
+        path: 'leave-form/create',
+        component: () => import('@/views/LeaveApplicationCreatePage.vue')
+      },
+      {
+        path: 'leave-form/notice/:id',
+        component: () => import('@/views/LeaveApplicationNoticeDetailPage.vue')
+      },
+      {
         path: 'payslip',
         component: () => import('@/views/payslip/Index.vue')
       }
