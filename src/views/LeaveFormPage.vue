@@ -136,6 +136,39 @@
               </ion-label>
             </ion-item>
           </ion-list>
+          <template v-if="selectedMyApplication.noted_by || selectedMyApplication.recommended_by || selectedMyApplication.approved_by || selectedMyApplication.denied_by">
+            <h3>Process History</h3>
+            <ion-list>
+              <ion-item v-if="selectedMyApplication.noted_at">
+                <ion-label>
+                  <h3>Noted by {{ selectedMyApplication.noted_by?.name }}</h3>
+                  <p>{{ formatDate(selectedMyApplication.noted_at) }}</p>
+                </ion-label>
+              </ion-item>
+              <ion-item v-if="selectedMyApplication.recommended_at">
+                <ion-label>
+                  <h3>Recommended by {{ selectedMyApplication.recommended_by?.name }}</h3>
+                  <p>{{ formatDate(selectedMyApplication.recommended_at) }}</p>
+                </ion-label>
+              </ion-item>
+              <ion-item v-if="selectedMyApplication.approved_at">
+                <ion-label>
+                  <h3>Approved by {{ selectedMyApplication.approved_by?.name }}</h3>
+                  <p>{{ formatDate(selectedMyApplication.approved_at) }}</p>
+                </ion-label>
+              </ion-item>
+              <ion-item v-if="selectedMyApplication.denied_at">
+                <ion-label>
+                  <h3>Denied by {{ selectedMyApplication.denied_by?.name }}</h3>
+                  <p>{{ formatDate(selectedMyApplication.denied_at) }}</p>
+                  <p>Comment: {{ selectedMyApplication.comments }}</p>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </template>
+          <div v-else style="margin-top: 16px; color: var(--ion-color-medium);">
+            <p>No processing history available yet.</p>
+          </div>
         </div>
       </ion-content>
     </ion-modal>

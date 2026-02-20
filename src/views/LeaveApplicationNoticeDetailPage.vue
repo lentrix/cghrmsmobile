@@ -73,12 +73,18 @@
 
     <ion-footer>
       <ion-toolbar>
-        <div class="actions-row">
-          <ion-button color="primary" @click="forwardToHr" :disabled="processing">
+        <div class="actions-row" v-if="showFooterActions">
+          <ion-button v-if="canForwardToHr" color="primary" @click="forwardToHr" :disabled="processing">
             Forward to HR
           </ion-button>
-          <ion-button color="danger" @click="openDenyModal" :disabled="processing">
+          <ion-button v-if="canDenyApplication" color="danger" @click="openDenyModal" :disabled="processing">
             Deny Application
+          </ion-button>
+          <ion-button v-if="canRecommendForApproval" color="primary" @click="recommendForApproval" :disabled="processing">
+            Recommend for Approval
+          </ion-button>
+          <ion-button v-if="canApproveApplication" color="success" @click="approveApplication" :disabled="processing">
+            Approve Application
           </ion-button>
         </div>
       </ion-toolbar>
@@ -142,6 +148,37 @@ const processing = ref(false);
 const isDenyModalOpen = ref(false);
 const denyReason = ref('');
 const denyReasonError = ref('');
+const currentUser = ref(JSON.parse(localStorage.getItem('user') || 'null'));
+
+const currentUserRoles = computed(() => {
+  const roles = currentUser.value?.roles;
+
+  if (Array.isArray(roles)) {
+    return roles.map((role) => String(role).toLowerCase());
+  }
+
+  if (typeof currentUser.value?.role === 'string') {
+    return [currentUser.value.role.toLowerCase()];
+  }
+
+  return [];
+});
+
+const hasRole = (role) => currentUserRoles.value.includes(role.toLowerCase());
+
+const applicationStatus = computed(() => {
+  if (!application.value) {
+    return '';
+  }
+
+  return displayStatus(application.value);
+});
+
+const canForwardToHr = computed(() => applicationStatus.value === 'Pending');
+const canRecommendForApproval = computed(() => hasRole('hr') && applicationStatus.value === 'Noted');
+const canApproveApplication = computed(() => hasRole('admin') && applicationStatus.value === 'Recommended');
+const canDenyApplication = computed(() => canRecommendForApproval.value || canApproveApplication.value);
+const showFooterActions = computed(() => canForwardToHr.value || canDenyApplication.value || canRecommendForApproval.value || canApproveApplication.value);
 
 const employeeName = computed(() => {
   const employeeInfo = application.value?.user?.employee_info;
@@ -153,6 +190,64 @@ const employeeName = computed(() => {
   return `${employeeInfo.last_name}, ${employeeInfo.first_name}`;
 });
 
+const actorName = (user) => {
+  if (!user) {
+    return 'Unknown User';
+  }
+
+  const employeeInfo = user.employee_info || user.employeeInfo;
+
+  if (employeeInfo?.full_name) {
+    return employeeInfo.full_name;
+  }
+
+  if (employeeInfo?.last_name || employeeInfo?.first_name) {
+    return `${employeeInfo.last_name || ''}, ${employeeInfo.first_name || ''}`.replace(/^,\s*/, '').trim();
+  }
+
+  return user.name || 'Unknown User';
+};
+
+const processHistory = computed(() => {
+  if (!application.value) {
+    return [];
+  }
+
+  return [
+    {
+      key: 'noted',
+      label: 'Noted',
+      badgeClass: 'badge-noted',
+      by: actorName(application.value.noted_by),
+      at: application.value.noted_at
+    },
+    {
+      key: 'recommended',
+      label: 'Recommended for approval',
+      badgeClass: 'badge-recommended',
+      by: actorName(application.value.recommended_by),
+      at: application.value.recommended_at
+    },
+    {
+      key: 'approved',
+      label: 'Approved',
+      badgeClass: 'badge-approved',
+      by: actorName(application.value.approved_by),
+      at: application.value.approved_at
+    },
+    {
+      key: 'denied',
+      label: 'Denied',
+      badgeClass: 'badge-denied',
+      by: actorName(application.value.denied_by),
+      at: application.value.denied_at,
+      remarks: application.value.comments
+    }
+  ];
+});
+
+const visibleProcessHistory = computed(() => processHistory.value.filter((item) => !!item.at));
+
 const headers = () => ({
   Authorization: `Bearer ${localStorage.getItem('access_token')}`
 });
@@ -163,6 +258,16 @@ const formatDate = (value) => {
   return new Date(value).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'short',
+    day: '2-digit'
+  });
+};
+
+const formatLongDate = (value) => {
+  if (!value) return '';
+
+  return new Date(value).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
     day: '2-digit'
   });
 };
@@ -243,6 +348,8 @@ const openDenyModal = () => {
 
 const closeDenyModal = () => {
   isDenyModalOpen.value = false;
+  denyReason.value = '';
+  denyReasonError.value = '';
 };
 
 const submitDenyApplication = async () => {
@@ -270,6 +377,40 @@ const submitDenyApplication = async () => {
   }
 };
 
+const recommendForApproval = async () => {
+  if (processing.value) return;
+
+  processing.value = true;
+
+  try {
+    await axios.post(`${host}/leave-applications/${route.params.id}/recommend`, {}, {
+      headers: headers()
+    });
+
+    await showToast('Application recommended for approval.');
+    router.replace('/tabs/leave-form');
+  } finally {
+    processing.value = false;
+  }
+};
+
+const approveApplication = async () => {
+  if (processing.value) return;
+
+  processing.value = true;
+
+  try {
+    await axios.post(`${host}/leave-applications/${route.params.id}/approve`, {}, {
+      headers: headers()
+    });
+
+    await showToast('Application approved successfully.');
+    router.replace('/tabs/leave-form');
+  } finally {
+    processing.value = false;
+  }
+};
+
 onMounted(() => {
   fetchApplication();
 });
@@ -289,6 +430,51 @@ onMounted(() => {
 
 .modal-content {
   padding: 16px;
+}
+
+.process-history-section {
+  padding: 4px 0 12px;
+}
+
+.process-history-section h3 {
+  margin: 8px 12px;
+  font-size: 1rem;
+}
+
+.history-badge {
+  display: inline-block;
+  margin-right: 6px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.badge-noted {
+  background: var(--ion-color-danger-tint);
+  color: #fff;
+}
+
+.badge-recommended {
+  background: var(--ion-color-warning);
+  color: var(--ion-color-warning-contrast);
+}
+
+.badge-approved {
+  background: var(--ion-color-success);
+  color: var(--ion-color-success-contrast);
+}
+
+.badge-denied {
+  background: var(--ion-color-danger);
+  color: var(--ion-color-danger-contrast);
+}
+
+.history-remarks {
+  margin-top: 6px;
+  color: var(--ion-color-medium);
+  font-size: 0.85rem;
 }
 
 .field-error {
